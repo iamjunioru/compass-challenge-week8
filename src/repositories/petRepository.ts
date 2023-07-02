@@ -3,9 +3,9 @@ import TutorModel from "../models/tutorModel";
 
 const petRepository = {
   async createPet(tutorId: string, petData: any) {
+    const newPet = await PetModel.create({ tutorId, ...petData });
     const tutor = await TutorModel.findById(tutorId);
-    const newPet = await PetModel.create(petData);
-    tutor.pets.push(newPet);
+    tutor.pets.push(newPet._id);
     await tutor.save();
     return newPet;
   },
