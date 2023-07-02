@@ -1,6 +1,5 @@
-import TutorModel from '../models/tutorModel';
-import PetModel from '../models/petModel';
-
+import PetModel from "../models/petModel";
+import TutorModel from "../models/tutorModel";
 
 const petRepository = {
   async createPet(tutorId: string, petData: any) {

@@ -1,5 +1,7 @@
-import Tutor from '../models/tutorModel';
-import Pet from '../models/petModel';
+
+import  Tutor  from '../models/tutorModel';
+import  Pet  from '../models/petModel';
+
 
 const tutorRepository = {
   async getAllTutors() {
@@ -17,7 +19,6 @@ const tutorRepository = {
     return createdTutor;
   },
   
-
   async updateTutor(tutorId: string, tutorData: any) {
     return Tutor.findByIdAndUpdate(tutorId, tutorData, { new: true });
   },
@@ -29,6 +30,11 @@ const tutorRepository = {
     }
     return Tutor.findByIdAndDelete(tutorId);
   },
+
+
+async addPetToTutor(tutorId: string, petId: string) {
+  return Tutor.findByIdAndUpdate(tutorId, { $push: { pets: petId } }, { new: true });
+},
 };
 
 export default tutorRepository;
