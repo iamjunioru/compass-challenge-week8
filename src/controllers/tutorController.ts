@@ -32,17 +32,6 @@ const tutorController = {
     }
   },
   
-updateTutor(req: Request, res: Response) {
-  try {
-    const tutorId = req.params.tutorId;
-    const tutorData = req.body;
-    const updatedTutor = tutorRepository.updateTutor(tutorId, tutorData);
-    res.json(updatedTutor);
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao atualizar o tutor', error: error.message });
-  }
-},
-
 deleteTutor(req: Request, res: Response) {
   try {
     const tutorId = req.params.tutorId;
