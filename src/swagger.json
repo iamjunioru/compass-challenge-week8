@@ -1,49 +1,349 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "title": "Minha API",
-      "version": "1.0.0"
+  "swagger": "2.0",
+  "info": {
+    "title": "Minha API",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "paths": {
+    "/tutors": {
+      "get": {
+        "summary": "Obter todos os tutores",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Tutor"
+              }
+            }
+          }
+        }
+      }
     },
-    "basePath": "/",
-    "paths": {
-      "/tutors": {
-        "get": {
-          "summary": "Obter todos os tutores",
-          "responses": {
-            "200": {
-              "description": "OK"
+    "/auth": {
+      "post": {
+        "summary": "Autenticar usuário",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "example@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "mypassword"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "jwt-token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tutor": {
+      "post": {
+        "summary": "Criar um novo tutor",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TutorInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Tutor"
+            }
+          },
+          "500": {
+            "description": "Erro ao criar o tutor",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/tutor/{tutorId}": {
+      "put": {
+        "summary": "Atualizar um tutor",
+        "parameters": [
+          {
+            "name": "tutorId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TutorInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Tutor"
+            }
+          },
+          "500": {
+            "description": "Erro ao atualizar o tutor",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
           }
         }
       },
-      "/auth": {
-        "post": {
-          "summary": "Autenticar usuário",
-          "parameters": [
-            {
-              "name": "body",
-              "in": "body",
-              "required": true,
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  },
-                  "password": {
-                    "type": "string"
-                  }
-                }
+      "delete": {
+        "summary": "Excluir um tutor",
+        "parameters": [
+          {
+            "name": "tutorId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Erro ao deletar o tutor",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/pets": {
+      "get": {
+        "summary": "Obter todos os pets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
               }
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
+          }
+        }
+      }
+    },
+    "/pet": {
+      "post": {
+        "summary": "Criar um novo pet",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PetInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          },
+          "500": {
+            "description": "Erro ao criar o pet",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/pet/{petId}": {
+      "get": {
+        "summary": "Obter informações de um pet",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          },
+          "404": {
+            "description": "Pet não encontrado",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um pet",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PetInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          },
+          "500": {
+            "description": "Erro ao atualizar o pet",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um pet",
+        "parameters": [
+          {
+            "name": "petId",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "500": {
+            "description": "Erro ao deletar o pet",
+            "schema": {
+              "$ref": "#/definitions/Error"
             }
           }
         }
       }
     }
+  },
+  "definitions": {
+    "Tutor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      }
+    },
+    "TutorInput": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Pet": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "species": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "PetInput": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "species": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
   }
-  
+}
