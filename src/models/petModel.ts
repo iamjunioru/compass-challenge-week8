@@ -6,7 +6,7 @@ export interface Pet extends Document {
   carry: string;
   weight: number;
   date_of_birth?: Date;
-  tutors: Types.ObjectId[]; // Adicione essa linha
+  tutors: Types.ObjectId[];
 }
 
 const petSchema = new Schema<Pet>({
@@ -15,7 +15,7 @@ const petSchema = new Schema<Pet>({
   carry: { type: String, required: true },
   weight: { type: Number, required: true },
   date_of_birth: { type: Date },
-  tutors: [{ type: Schema.Types.ObjectId, ref: "Tutor" }], // Adicione essa linha
+  tutors: [{ type: Schema.Types.ObjectId, ref: "Tutor" }],
 });
 
 const PetModel = model<Pet>("Pet", petSchema);

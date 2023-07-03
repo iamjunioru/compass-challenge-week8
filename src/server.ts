@@ -4,8 +4,8 @@ import mongoose from "mongoose";
 import tutorController from "./controllers/tutorController";
 import petController from "./controllers/petController";
 import authService from "./services/authService";
-import { setupSwagger } from './swagger.ts';
-
+import authMiddleware from "./middlewares/authMiddleware";
+import { setupSwagger } from "./swagger.ts";
 
 dotenv.config();
 
@@ -27,15 +27,25 @@ mongoose
     console.error("Erro ao conectar ao MongoDB:", error);
   });
 
-  app.use(express.json());
-  setupSwagger(app);  
+setupSwagger(app); 
+app.use(express.json());
 
-// rotas
-app.get("/tutors", tutorController.getAllTutors);
+// rota pública sem autenticação
 app.post("/auth", authService.authenticateUser);
+
+// rota sem autenticação
 app.post("/tutor", tutorController.createTutor);
+
+// middleware de autenticação
+app.use(authMiddleware);
+
+// rotas autenticadas
+app.get("/tutors", tutorController.getAllTutors);
 app.put("/tutor/:tutorId", tutorController.updateTutor);
 app.delete("/tutor/:tutorId", tutorController.deleteTutor);
 app.post("/pet/:tutorId", petController.createPet);
 app.put("/pet/:petId/tutor/:tutorId", petController.updatePet);
 app.delete("/pet/:petId/tutor/:tutorId", petController.deletePet);
+
+
+

@@ -26,7 +26,7 @@ const tutorController = {
       const tutorId = req.params.tutorId;
       const tutorData = req.body;
       const updatedTutor = tutorRepository.updateTutor(tutorId, tutorData);
-      res.json(updatedTutor);
+      res.status(204).json({ message: 'Tutor atualizado com sucesso'});
     } catch (error) {
       res.status(500).json({ message: 'Erro ao atualizar o tutor', error: error.message });
     }
@@ -36,7 +36,7 @@ deleteTutor(req: Request, res: Response) {
   try {
     const tutorId = req.params.tutorId;
     tutorRepository.deleteTutor(tutorId);
-    res.sendStatus(204);
+    res.status(204).json({ message: 'Tutor deletado com sucesso' });
   } catch (error) {
     res.status(500).json({ message: 'Erro ao deletar o tutor', error: error.message });
   }
