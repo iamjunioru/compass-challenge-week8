@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import tutorController from "./controllers/tutorController";
 import petController from "./controllers/petController";
 import authService from "./services/authService";
+import { setupSwagger } from './swagger.ts';
+
 
 dotenv.config();
 
@@ -25,7 +27,8 @@ mongoose
     console.error("Erro ao conectar ao MongoDB:", error);
   });
 
-app.use(express.json());
+  app.use(express.json());
+  setupSwagger(app);  
 
 // rotas
 app.get("/tutors", tutorController.getAllTutors);

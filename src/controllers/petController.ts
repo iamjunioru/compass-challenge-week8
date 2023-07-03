@@ -1,3 +1,75 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Pet:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *         species:
+ *           type: string
+ *         carry:
+ *           type: string
+ *         weight:
+ *           type: number
+ *       required:
+ *         - name
+ *         - species
+ *         - carry
+ *         - weight
+ *     ErrorResponse:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *       required:
+ *         - message
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Pets
+ *   description: API de gerenciamento de pets
+ */
+
+/**
+ * @swagger
+ * /pet/{tutorId}:
+ *   post:
+ *     summary: Cria um novo pet para um tutor
+ *     tags: [Pets]
+ *     parameters:
+ *       - in: path
+ *         name: tutorId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID do tutor
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Pet'
+ *     responses:
+ *       201:
+ *         description: Pet criado com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Pet'
+ *       500:
+ *         description: Erro ao criar o pet
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ErrorResponse'
+ */
+
+
+
 import { Request, Response } from "express";
 import petRepository from "../repositories/petRepository";
 import tutorRepository from "../repositories/tutorRepository";
