@@ -8,14 +8,12 @@ const petController = {
       const tutorId = req.params.tutorId;
       const petData = req.body;
 
-      const newPet = await petRepository.createPet(petData);
+      const newPet = await petRepository.createPet(tutorId, petData);
       await tutorRepository.addPetToTutor(tutorId, newPet._id);
 
       res.status(201).json(newPet);
     } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Erro ao criar o pet", error: error.message });
+      res.status(500).json({ message: "Erro ao criar o pet", error: error.message });
     }
   },
 
@@ -27,9 +25,7 @@ const petController = {
       const updatedPet = petRepository.updatePet(petId, tutorId, petData);
       res.json(updatedPet);
     } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Erro ao atualizar o pet", error: error.message });
+      res.status(500).json({ message: "Erro ao atualizar o pet", error: error.message });
     }
   },
 
@@ -40,9 +36,7 @@ const petController = {
       petRepository.deletePet(petId, tutorId);
       res.sendStatus(204);
     } catch (error) {
-      res
-        .status(500)
-        .json({ message: "Erro ao deletar o pet", error: error.message });
+      res.status(500).json({ message: "Erro ao deletar o pet", error: error.message });
     }
   },
 };
