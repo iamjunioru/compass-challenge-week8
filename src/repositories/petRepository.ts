@@ -20,7 +20,8 @@ const petRepository = {
 
   async deletePet(petId: string, tutorId: string): Promise<void> {
     await Pet.findOneAndDelete({ _id: petId, tutors: tutorId });
-  },
+    await Tutor.findByIdAndUpdate(tutorId, { $pull: { pets: petId } });
+  }
 };
 
 export default petRepository;

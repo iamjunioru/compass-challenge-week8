@@ -3,9 +3,9 @@ import Pet from '../models/petModel';
 
 const tutorRepository = {
   async getAllTutors() {
-    return Tutor.find().populate('pets');
+    return Tutor.find().populate('pets').exec();
   },
-
+  
   async createTutor(tutorData: any) {
     const lastTutor = await Tutor.findOne().sort({ id: -1 }).limit(1);
     const lastId = lastTutor ? lastTutor.id : 0;
