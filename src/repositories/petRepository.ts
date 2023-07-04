@@ -1,5 +1,5 @@
 import Pet, { PetDocument } from "../models/petModel";
-import Tutor, { TutorDocument } from "../models/tutorModel";
+import Tutor from "../models/tutorModel";
 
 const petRepository = {
   async createPet(tutorId: string, petData: any): Promise<PetDocument> {
