@@ -23,9 +23,7 @@ const tutorRepository = {
   async deleteTutor(tutorId: string) {
     const tutor = await Tutor.findById(tutorId);
     if (tutor.pets.length > 0) {
-      throw new Error(
-        "It is not possible to exclude a tutor with associated pets."
-      );
+      return { error: "Não é possível excluir um tutor com pets associados." };
     }
     return Tutor.findByIdAndDelete(tutorId);
   },

@@ -37,7 +37,7 @@ const petController = {
       const petId = req.params.petId;
       const tutorId = req.params.tutorId;
       petRepository.deletePet(petId, tutorId);
-      res.status(200).json({ message: "Pet successfully deleted!" });
+      res.send(200).json();
     } catch (error) {
       res
         .status(500)

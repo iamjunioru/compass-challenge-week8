@@ -48,11 +48,11 @@ const tutorController = {
     try {
       const tutorId = req.params.tutorId;
       tutorRepository.deleteTutor(tutorId);
-      res.status(200).json({ message: "Tutor successfully deleted!" });
+      res.send(200).json();
     } catch (error) {
       res
-        .status(500)
-        .json({ message: "Error deleting tutor.", error: error.message });
+        .send(500)
+        .json();
     }
   },
 };
