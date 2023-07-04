@@ -8,16 +8,16 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
-    return res.status(401).json({ message: "Token não fornecido" });
+    return res.status(401).json({ message: "Token not provided." });
   }
 
   try {
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    // Você pode adicionar informações do token decodificado ao objeto `req` para uso posterior, se necessário.
+    // pode adicionar informações do token decodificado ao objeto `req` para uso posterior, se necessário.
     req.tokenPayload = decodedToken;
     next();
   } catch (error) {
-    return res.status(403).json({ message: "Token inválido" });
+    return res.status(403).json({ message: "Invalid token." });
   }
 };
 

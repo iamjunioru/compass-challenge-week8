@@ -9,7 +9,11 @@ const petRepository = {
     return pet;
   },
 
-  async updatePet(petId: string, tutorId: string, petData: any): Promise<PetDocument | null> {
+  async updatePet(
+    petId: string,
+    tutorId: string,
+    petData: any
+  ): Promise<PetDocument | null> {
     const pet = await Pet.findOneAndUpdate(
       { _id: petId, tutors: tutorId },
       { $set: petData },
@@ -21,7 +25,7 @@ const petRepository = {
   async deletePet(petId: string, tutorId: string): Promise<void> {
     await Pet.findOneAndDelete({ _id: petId, tutors: tutorId });
     await Tutor.findByIdAndUpdate(tutorId, { $pull: { pets: petId } });
-  }
+  },
 };
 
 export default petRepository;

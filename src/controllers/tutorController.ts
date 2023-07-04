@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
-import tutorRepository from '../repositories/tutorRepository';
+import { Request, Response } from "express";
+import tutorRepository from "../repositories/tutorRepository";
 
 const tutorController = {
   async getAllTutors(req: Request, res: Response) {
@@ -7,7 +7,9 @@ const tutorController = {
       const tutors = await tutorRepository.getAllTutors();
       res.json(tutors);
     } catch (error) {
-      res.status(500).json({ message: 'Erro ao buscar os tutores', error: error.message});
+      res
+        .status(500)
+        .json({ message: "Error when search tutors.", error: error.message });
     }
   },
 
@@ -15,9 +17,13 @@ const tutorController = {
     try {
       const tutorData = req.body;
       const newTutor = tutorRepository.createTutor(tutorData);
-      res.status(201).json({ message: 'Tutor Criado', newTutor, tutorData });
+      res
+        .status(201)
+        .json({ message: "Tutor successfully created!", newTutor, tutorData });
     } catch (error) {
-      res.status(500).json({ message: 'Erro ao criar o tutor', error: error.message});
+      res
+        .status(500)
+        .json({ message: "Error creating tutor.", error: error.message });
     }
   },
 
@@ -26,21 +32,29 @@ const tutorController = {
       const tutorId = req.params.tutorId;
       const tutorData = req.body;
       const updatedTutor = tutorRepository.updateTutor(tutorId, tutorData);
-      res.status(204).json({ message: 'Tutor atualizado com sucesso'});
+      res
+        .status(200)
+        .json({
+          message: "Tutor successfully updated!"
+        });
     } catch (error) {
-      res.status(500).json({ message: 'Erro ao atualizar o tutor', error: error.message });
+      res
+        .status(500)
+        .json({ message: "Error updating tutor.", error: error.message });
     }
   },
-  
-deleteTutor(req: Request, res: Response) {
-  try {
-    const tutorId = req.params.tutorId;
-    tutorRepository.deleteTutor(tutorId);
-    res.status(204).json({ message: 'Tutor deletado com sucesso' });
-  } catch (error) {
-    res.status(500).json({ message: 'Erro ao deletar o tutor', error: error.message });
-  }
-},
+
+  deleteTutor(req: Request, res: Response) {
+    try {
+      const tutorId = req.params.tutorId;
+      tutorRepository.deleteTutor(tutorId);
+      res.status(200).json({ message: "Tutor successfully deleted!" });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ message: "Error deleting tutor.", error: error.message });
+    }
+  },
 };
 
 export default tutorController;

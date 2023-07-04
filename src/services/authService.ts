@@ -21,15 +21,11 @@ const authService = {
 
         res.json({ token });
       } else {
-        res.status(401).json({ message: "Credenciais inválidas" });
+        res.status(401).json({ message: "Invalid (Email or password)." });
       }
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: "Erro ao autenticar o usuário",
-          error: error.message,
-        });
+      res.status(500).json({
+        message: "Error authenticating user. Please try again later.", error: error.message });
     }
   },
 };

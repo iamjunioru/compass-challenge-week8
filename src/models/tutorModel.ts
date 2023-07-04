@@ -3,9 +3,9 @@ import Pet from "./petModel";
 
 export interface Tutor extends Document {
   name: string;
+  email: string;
   password: string;
   phone: string;
-  email: string;
   date_of_birth: Date;
   zip_code: string;
   pets: Types.ObjectId[];
@@ -25,7 +25,7 @@ const tutorSchema = new Schema<Tutor>({
   date_of_birth: { type: Date, required: true },
   zip_code: { type: String, required: true },
   pets: [{ type: Schema.Types.ObjectId, ref: "Pet" }],
-});
+}, { versionKey: false });
 
 const TutorModel = model<Tutor>("Tutor", tutorSchema);
 

@@ -1,11 +1,11 @@
 import dotenv from "dotenv";
 import express from "express";
-import mongoose from "mongoose";
+import mongoose, { ConnectOptions } from "mongoose";
 import tutorController from "./controllers/tutorController";
 import petController from "./controllers/petController";
 import authService from "./services/authService";
 import authMiddleware from "./middlewares/authMiddleware";
-import { setupSwagger } from "./swagger.ts";
+import { setupSwagger } from "./swaggerconfig";
 
 dotenv.config();
 
@@ -16,18 +16,21 @@ const uri =
   "mongodb+srv://iamjunioru:iamjunioru@cluster0.j2i3zer.mongodb.net/mydatabase";
 
 mongoose
-  .connect(uri, { useUnifiedTopology: true, useNewUrlParser: true })
+  .connect(uri, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true,
+  } as ConnectOptions)
   .then(() => {
-    console.log("Conectado ao MongoDB");
+    console.log("\x1b[32mConnected to MongoDB\x1b[0m");
     app.listen(port, () => {
-      console.log(`Servidor rodando na porta ${port}`);
+      console.log("\x1b[32mServer running on port " + port + "\x1b[0m"); 
     });
   })
   .catch((error) => {
-    console.error("Erro ao conectar ao MongoDB:", error);
+    console.error("\x1b[31mError connecting to MongoDB: \x1b[0m", error); 
   });
 
-setupSwagger(app); 
+setupSwagger(app);
 app.use(express.json());
 
 // rota pública sem autenticação
@@ -46,6 +49,3 @@ app.delete("/tutor/:tutorId", tutorController.deleteTutor);
 app.post("/pet/:tutorId", petController.createPet);
 app.put("/pet/:petId/tutor/:tutorId", petController.updatePet);
 app.delete("/pet/:petId/tutor/:tutorId", petController.deletePet);
-
-
-
