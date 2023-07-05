@@ -1,348 +1,403 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.1",
   "info": {
-    "title": "Minha API",
-    "version": "1.0.0"
+    "title": "Tutors and Pets",
+    "description": "API de tutores e pets",
+    "version": "1.0"
   },
-  "basePath": "/",
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
   "paths": {
-    "/tutors": {
-      "get": {
-        "summary": "Obter todos os tutores",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Tutor"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/auth": {
-      "post": {
-        "summary": "Autenticar usuário",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "example@example.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "mypassword"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "type": "string",
-                  "example": "jwt-token"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/tutor": {
       "post": {
-        "summary": "Criar um novo tutor",
-        "parameters": [
+        "summary": "POST /tutor",
+        "description": "Adicionar novo tutor",
+        "tags": [
+          "Tutor"
+        ],
+        "security": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/TutorInput"
-            }
+            "bearerAuth": []
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tutor"
+              },
+              "examples": {
+                "tutor": {
+                  "value": {
+                    "name": "John Doe",
+                    "phone": "123456789",
+                    "email": "joao@example.com",
+                    "password": "123456",
+                    "date_of_birth": "1999-01-01T00:00:00.000Z",
+                    "zip_code": "12345",
+                    "pets": []
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
+          "401": {
+            "description": "Token inválido"
+          },
           "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/Tutor"
+            "description": "Tutor criado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tutor"
+                }
+              }
             }
           },
-          "500": {
-            "description": "Erro ao criar o tutor",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
+          "502": {
+            "description": "Falha ao criar tutor"
           }
         }
       }
     },
-    "/tutor/{tutorId}": {
-      "put": {
-        "summary": "Atualizar um tutor",
-        "parameters": [
-          {
-            "name": "tutorId",
-            "in": "path",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/TutorInput"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Tutor"
-            }
-          },
-          "500": {
-            "description": "Erro ao atualizar o tutor",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      },
-      "delete": {
-        "summary": "Excluir um tutor",
-        "parameters": [
-          {
-            "name": "tutorId",
-            "in": "path",
-            "type": "string",
-            "required": true
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Erro ao deletar o tutor",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
-    "/pets": {
+    "/tutors": {
       "get": {
-        "summary": "Obter todos os pets",
+        "summary": "GET /tutors",
+        "description": "Buscar todos os tutores",
+        "tags": [
+          "Tutor"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Pet"
+            "description": "Operação bem-sucedida",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tutor"
+                  }
+                }
               }
             }
           }
         }
       }
     },
-    "/pet": {
-      "post": {
-        "summary": "Criar um novo pet",
-        "parameters": [
+    "/tutor/{id}": {
+      "delete": {
+        "description": "Deletar tutor por ID",
+        "tags": [
+          "Tutor"
+        ],
+        "security": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PetInput"
-            }
+            "bearerAuth": []
           }
         ],
-        "responses": {
-          "201": {
-            "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/Pet"
-            }
-          },
-          "500": {
-            "description": "Erro ao criar o pet",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
-    "/pet/{petId}": {
-      "get": {
-        "summary": "Obter informações de um pet",
         "parameters": [
           {
-            "name": "petId",
+            "name": "id",
             "in": "path",
-            "type": "string",
+            "description": "ID do tutor",
             "required": true
           }
         ],
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Pet"
-            }
-          },
-          "404": {
-            "description": "Pet não encontrado",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {}
             }
           }
         }
       },
       "put": {
-        "summary": "Atualizar um pet",
-        "parameters": [
+        "description": "Atualizar tutor por ID",
+        "tags": [
+          "Tutor"
+        ],
+        "security": [
           {
-            "name": "petId",
-            "in": "path",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/PetInput"
-            }
+            "bearerAuth": []
           }
         ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do tutor",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Tutor"
+              },
+              "examples": {
+                "tutor": {
+                  "value": {
+                    "name": "Junior Sousa",
+                    "phone": "88994953035",
+                    "email": "iamjunioru@gmail.com",
+                    "password": "123456",
+                    "date_of_birth": "2023-01-01T00:00:00.000Z",
+                    "zip_code": "63400000",
+                    "pets": []
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "$ref": "#/definitions/Pet"
+            "content": {
+              "application/json": {}
             }
           },
-          "500": {
-            "description": "Erro ao atualizar o pet",
-            "schema": {
-              "$ref": "#/definitions/Error"
+          "502": {
+            "description": "Erro"
+          }
+        }
+      }
+    },
+    "/pet/{id}": {
+      "post": {
+        "summary": "POST /pet/{id}",
+        "description": "Adicionar novo pet",
+        "tags": [
+          "Pets"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do tutor",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pets"
+              },
+              "examples": {
+                "Pets": {
+                  "value": {
+                    "name": "Fluffy",
+                    "species": "Dog",
+                    "carry": "Red",
+                    "weight": "10",
+                    "date_of_birth": "2020-01-01T00:00:00.000Z"
+                  }
+                }
+              }
             }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Token inválido"
+          },
+          "201": {
+            "description": "Pet criado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pets"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Falha ao criar pet"
+          }
+        }
+      }
+    },
+    "/pet/{id}/tutor/{idTutor}": {
+      "put": {
+        "summary": "PUT /pet/{id}/tutor/{idTutor}",
+        "description": "Editar pet",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Pets"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do pet",
+            "required": true
+          },
+          {
+            "name": "idTutor",
+            "in": "path",
+            "description": "ID do tutor",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pets"
+              },
+              "examples": {
+                "Pets": {
+                  "value": {
+                    "name": "Miguel",
+                    "species": "Cat",
+                    "carry": "Frajolinha",
+                    "weight": "6",
+                    "date_of_birth": "2021-06-23T00:00:00.000Z"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Token inválido"
+          },
+          "201": {
+            "description": "Pet atualizado com sucesso!",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pets"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Falha ao atualizar pet"
           }
         }
       },
       "delete": {
-        "summary": "Excluir um pet",
+        "summary": "DELETE /pet/{id}/tutor/{idTutor}",
+        "description": "Deletar pet",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": [
+          "Pets"
+        ],
         "parameters": [
           {
-            "name": "petId",
+            "name": "id",
             "in": "path",
-            "type": "string",
+            "description": "ID do pet",
+            "required": true
+          },
+          {
+            "name": "idTutor",
+            "in": "path",
+            "description": "ID do tutor",
             "required": true
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "500": {
-            "description": "Erro ao deletar o pet",
-            "schema": {
-              "$ref": "#/definitions/Error"
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pets"
+                }
+              }
             }
+          },
+          "502": {
+            "description": "Falha ao deletar pet"
           }
         }
       }
     }
   },
-  "definitions": {
-    "Tutor": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
+  "components": {
+    "schemas": {
+      "Tutor": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "date_of_birth": {
+            "type": "string"
+          },
+          "zip_code": {
+            "type": "string"
+          },
+          "pets": {
+            "type": "array",
+            "items": {}
+          }
+        }
+      },
+      "Pets": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "species": {
+            "type": "string"
+          },
+          "carry": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "string"
+          },
+          "date_of_birth": {
+            "type": "string"
+          }
         }
       }
     },
-    "TutorInput": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      }
-    },
-    "Pet": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "species": {
-          "type": "string"
-        },
-        "age": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "PetInput": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "species": {
-          "type": "string"
-        },
-        "age": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "Error": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        }
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
